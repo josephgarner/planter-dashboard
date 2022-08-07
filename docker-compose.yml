@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  planterDashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: planter-dashboard
+    container_name: PlanterDashboard
+    restart: on-failure
+    ports:
+      - "3000:3000"
