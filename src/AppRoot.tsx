@@ -8,22 +8,21 @@ export const AppRoot = () => {
   const [open, setOpen] = useState(false);
   const { planters } = usePlantIDList();
   const { classes } = useStyles();
-
   return (
-    <Container className={classes.container}>
+    <Group className={classes.container}>
       {planters.map((p, index) => {
         return (
           <PlanterSummary key={index} planterID={p} openDetails={setOpen} />
         );
       })}
       <PlanterDetails open={open} setOpen={setOpen} />
-    </Container>
+    </Group>
   );
 };
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   container: {
-    minHeight: "100vh",
     minWidth: "100vw",
+    padding: theme.spacing.md,
   },
 }));

@@ -10,7 +10,7 @@ export const usePlanterList = () => {
     socket.emit(ClientEvents.PLANTER_LIST);
     socket.on(ClientEvents.PLANTER_LIST, (arg) => {
       if (arg) {
-        setPlanterList(arg);
+        setPlanterList(arg[0]);
       }
     });
     return () => {
