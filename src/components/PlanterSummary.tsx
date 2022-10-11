@@ -1,17 +1,11 @@
-import {
-  createStyles,
-  Group,
-  Paper,
-  Text,
-  RingProgress,
-  Progress,
-} from "@mantine/core";
+import { createStyles, Group, Paper, Transition } from "@mantine/core";
 import { usePlantIDList } from "../context/PlanterContextProvider";
 import { createMediaQuery } from "../ui/createMediaQuery";
-import { BatteryBar } from "./details/BatteryBar";
-import { MoistureDoughnut } from "./details/MoistureDoughnut";
+import { BatteryBar } from "./graphs/BatteryBar";
+
 import { PlanterHeader } from "./details/PlanterHeader";
 import { Summary } from "./details/Summary";
+import { MoistureDoughnut } from "./graphs/MoistureDoughnut";
 
 type Props = {
   openDetails: (open: boolean) => void;

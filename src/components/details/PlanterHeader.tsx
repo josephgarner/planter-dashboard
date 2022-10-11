@@ -32,10 +32,11 @@ export const PlanterHeader = ({ planterID }: Props) => {
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
+    width: "100%",
     flexDirection: "column",
     alignItems: "center",
     marginBottom: theme.spacing.sm,
-    [createMediaQuery(theme.breakpoints.xs)]: {
+    [createMediaQuery(theme.breakpoints.sm)]: {
       alignItems: "flex-start",
       marginBottom: 0,
     },

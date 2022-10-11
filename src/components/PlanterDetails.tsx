@@ -1,20 +1,23 @@
 import {
+  Button,
   Container,
   createStyles,
   Drawer,
   Group,
   Loader,
   Paper,
-  Table,
+  ScrollArea,
   Text,
 } from "@mantine/core";
 import { createMediaQuery } from "../ui/createMediaQuery";
-import { BatteryDoughnut } from "./details/BatteryDoughnut";
-import { MoistureDoughnut } from "./details/MoistureDoughnut";
 import { CommandTable } from "./details/CommandTable";
 import { PlanterHeader } from "./details/PlanterHeader";
 import { PlanterInfo } from "./details/PlanterInfo";
 import { usePlantIDList } from "../context/PlanterContextProvider";
+import { Controls } from "./details/Controls";
+import { MoistureDoughnut } from "./graphs/MoistureDoughnut";
+import { BatteryDoughnut } from "./graphs/BatteryDoughnut";
+import { IrrigationGraph } from "./graphs/moistureGraph";
 
 type Props = {
   open: boolean;
@@ -25,6 +28,7 @@ export const PlanterDetails = ({ open, setOpen }: Props) => {
   const { classes } = useStyles();
 
   const { selectedPlanter } = usePlantIDList();
+
   return (
     <Drawer
       opened={open}
@@ -32,6 +36,8 @@ export const PlanterDetails = ({ open, setOpen }: Props) => {
       position="left"
       padding="xl"
       size="full"
+      lockScroll={true}
+      classNames={{ drawer: classes.drawer }}
     >
       {!selectedPlanter ? (
         <Loader />
@@ -45,7 +51,10 @@ export const PlanterDetails = ({ open, setOpen }: Props) => {
               className={classes.dataContainer}
             >
               <Group className={classes.header}>
-                <PlanterHeader planterID={selectedPlanter} />
+                <Group className={classes.headerButtonGroup}>
+                  <PlanterHeader planterID={selectedPlanter} />
+                  <Controls />
+                </Group>
                 <Group>
                   <MoistureDoughnut planterID={selectedPlanter} />
                   <BatteryDoughnut planterID={selectedPlanter} />
@@ -57,8 +66,7 @@ export const PlanterDetails = ({ open, setOpen }: Props) => {
               <CommandTable />
             </Group>
             <Group className={classes.info}>
-              <Text>Moisture Graph</Text>
-              <Text>Battery Graph</Text>
+              <IrrigationGraph />
             </Group>
           </Group>
         </Container>
@@ -69,9 +77,7 @@ export const PlanterDetails = ({ open, setOpen }: Props) => {
 
 const useStyles = createStyles((theme) => ({
   drawer: {
-    display: "flex",
-    alignItems: "flex-start",
-    justifyContent: "center",
+    overflowY: "scroll",
   },
   container: {
     flexDirection: "column",
@@ -81,17 +87,20 @@ const useStyles = createStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
     justifyContent: "left",
-    [createMediaQuery(theme.breakpoints.xs)]: {
+    [createMediaQuery(theme.breakpoints.sm)]: {
       justifyContent: "space-between",
       flexDirection: "row",
     },
+  },
+  headerButtonGroup: {
+    flexDirection: "column",
   },
   info: {
     width: "100%",
     flexDirection: "column",
     flexWrap: "wrap",
     alignItems: "stretch",
-    [createMediaQuery(theme.breakpoints.xs)]: {
+    [createMediaQuery(theme.breakpoints.sm)]: {
       flexDirection: "row",
       flexWrap: "nowrap",
     },

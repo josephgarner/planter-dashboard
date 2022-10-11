@@ -1,22 +1,23 @@
-import { createStyles, Paper, Table } from "@mantine/core";
+import { createStyles, Loader, Paper, Table } from "@mantine/core";
+import { usePlantIDList } from "context/PlanterContextProvider";
+import { format } from "date-fns";
+import { useEffect } from "react";
+import { useCommands } from "websocket/useCommands";
 
 export const CommandTable = () => {
   const { classes } = useStyles();
+  const { selectedPlanter } = usePlantIDList();
 
-  const elements = [
-    { position: 6, mass: 12.011, symbol: "C", name: "Carbon" },
-    { position: 7, mass: 14.007, symbol: "N", name: "Nitrogen" },
-    { position: 39, mass: 88.906, symbol: "Y", name: "Yttrium" },
-    { position: 56, mass: 137.33, symbol: "Ba", name: "Barium" },
-    { position: 58, mass: 140.12, symbol: "Ce", name: "Cerium" },
-  ];
+  const commandList = useCommands(selectedPlanter!);
 
-  const rows = elements.map((element) => (
-    <tr key={element.name}>
-      <td>{element.position}</td>
-      <td>{element.name}</td>
-      <td>{element.symbol}</td>
-      <td>{element.mass}</td>
+  if (!commandList) return <Loader />;
+
+  const rows = commandList.map((command, index) => (
+    <tr key={index}>
+      <td>{command.issuedCommand}</td>
+      <td>{command.sent ? "Sent" : "Waiting"}</td>
+      <td>{command.actioned ? "Actioned" : "Waiting"}</td>
+      <td>{format(new Date(command.dateCreated), "yy/MM/dd HH:mm")}</td>
     </tr>
   ));
 
@@ -25,10 +26,10 @@ export const CommandTable = () => {
       <Table>
         <thead>
           <tr>
-            <th>Online History</th>
-            <th>Element name</th>
-            <th>Symbol</th>
-            <th>Atomic mass</th>
+            <th>Command</th>
+            <th>Send</th>
+            <th>Actioned</th>
+            <th>Date Issueds</th>
           </tr>
         </thead>
         <tbody>{rows}</tbody>
