@@ -6,6 +6,13 @@ services:
       dockerfile: Dockerfile
     image: planter-dashboard
     container_name: PlanterDashboard
+    hostname: has.prod.planter-dashboard
     restart: on-failure
+    depends_on:
+      - PlantIrrigationService
     ports:
       - "3000:3000"
+networks:
+  default:
+    name: "nginx_default"
+    external: true
