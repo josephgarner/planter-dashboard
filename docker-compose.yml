@@ -8,8 +8,6 @@ services:
     container_name: PlanterDashboard
     hostname: has.prod.planter-dashboard
     restart: on-failure
-    depends_on:
-      - PlantIrrigationService
     ports:
       - "3000:3000"
 networks:
