@@ -12,9 +12,3 @@ services:
       - "3000:3000"
     expose:
       - "3000"
-    networks:
-      - main-network
-networks:
-  default:
-    name: "nginx_default"
-    external: true
